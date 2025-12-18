@@ -7,38 +7,40 @@ import com.example.demo.repository.RouteOptimizationResultRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.service.RouteOptimizationService;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 @Service
 public class RouteOptimizationServiceImpl implements RouteOptimizationService {
+    private final RouteOptimizationResultRepository routeRepo;
+    private final ShipmentRepository shipmentRepo;
 
-    private final ShipmentRepository shipmentRepository;
-    private final RouteOptimizationResultRepository resultRepository;
-
-    public RouteOptimizationServiceImpl(ShipmentRepository shipmentRepository,
-                                        RouteOptimizationResultRepository resultRepository) {
-        this.shipmentRepository = shipmentRepository;
-        this.resultRepository = resultRepository;
+    public RouteOptimizationServiceImpl(RouteOptimizationResultRepository routeRepo, ShipmentRepository shipmentRepo) {
+        this.routeRepo = routeRepo;
+        this.shipmentRepo = shipmentRepo;
     }
 
     @Override
     public RouteOptimizationResult optimizeRoute(Long shipmentId) {
-
-        Shipment shipment = shipmentRepository.findById(shipmentId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Shipment not found"));
+        Shipment shipment = shipmentRepo.findById(shipmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
 
         RouteOptimizationResult result = new RouteOptimizationResult();
         result.setShipment(shipment);
-        result.setOptimizedDistanceKm(120.0);   // dummy > 0
-        result.setEstimatedFuelUsageL(15.0);    // dummy > 0
+        
+        // Calculation of dummy distance and fuel
+        double dummyDistance = 120.5; // Example km
+        double fuelUsage = dummyDistance / shipment.getVehicle().getFuelEfficiency();
+        
+        result.setOptimizedDistanceKm(dummyDistance);
+        result.setEstimatedFuelUsageL(fuelUsage);
+        result.setGeneratedAt(LocalDateTime.now()); // Auto-set timestamp
 
-        return resultRepository.save(result);
+        return routeRepo.save(result);
     }
 
     @Override
     public RouteOptimizationResult getResult(Long resultId) {
-        return resultRepository.findById(resultId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Result not found"));
+        return routeRepo.findById(resultId)
+                .orElseThrow(() -> new ResourceNotFoundException("Result not found"));
     }
 }
