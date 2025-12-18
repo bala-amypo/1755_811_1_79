@@ -29,4 +29,8 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Configuration
+        public class SecurityConfig {
+    }
+
 }
