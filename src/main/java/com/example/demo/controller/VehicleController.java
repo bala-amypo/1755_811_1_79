@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Vehicle;
 import com.example.demo.service.VehicleService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,16 +17,13 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    // Add vehicle for user
     @PostMapping("/{userId}")
-    public Vehicle addVehicle(@PathVariable Long userId,
-                              @RequestBody Vehicle vehicle) {
-        return vehicleService.addVehicle(userId, vehicle);
+    public ResponseEntity<Vehicle> addVehicle(@PathVariable Long userId, @RequestBody Vehicle vehicle) {
+        return ResponseEntity.ok(vehicleService.addVehicle(userId, vehicle));
     }
 
-    // Get vehicles by user
     @GetMapping("/user/{userId}")
-    public List<Vehicle> getVehiclesByUser(@PathVariable Long userId) {
-        return vehicleService.getVehiclesByUser(userId);
+    public ResponseEntity<List<Vehicle>> getVehiclesByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(vehicleService.getVehiclesByUser(userId));
     }
 }

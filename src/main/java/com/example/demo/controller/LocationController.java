@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Location;
 import com.example.demo.service.LocationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,15 +17,13 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    // Create location
     @PostMapping
-    public Location createLocation(@RequestBody Location location) {
-        return locationService.createLocation(location);
+    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
+        return ResponseEntity.ok(locationService.createLocation(location));
     }
 
-    // Get all locations
     @GetMapping
-    public List<Location> getAllLocations() {
-        return locationService.getAllLocations();
+    public ResponseEntity<List<Location>> getAllLocations() {
+        return ResponseEntity.ok(locationService.getAllLocations());
     }
 }

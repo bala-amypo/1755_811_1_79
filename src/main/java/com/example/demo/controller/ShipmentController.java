@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Shipment;
 import com.example.demo.service.ShipmentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,16 +15,13 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
 
-    // Create shipment
     @PostMapping("/{vehicleId}")
-    public Shipment createShipment(@PathVariable Long vehicleId,
-                                   @RequestBody Shipment shipment) {
-        return shipmentService.createShipment(vehicleId, shipment);
+    public ResponseEntity<Shipment> createShipment(@PathVariable Long vehicleId, @RequestBody Shipment shipment) {
+        return ResponseEntity.ok(shipmentService.createShipment(vehicleId, shipment));
     }
 
-    // Get shipment by id
     @GetMapping("/{shipmentId}")
-    public Shipment getShipment(@PathVariable Long shipmentId) {
-        return shipmentService.getShipment(shipmentId);
+    public ResponseEntity<Shipment> getShipment(@PathVariable Long shipmentId) {
+        return ResponseEntity.ok(shipmentService.getShipment(shipmentId));
     }
 }
