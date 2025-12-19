@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.RouteOptimizationResult;
 import com.example.demo.entity.Shipment;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.RouteOptimizationRepository;
+import com.example.demo.repository.RouteOptimizationResultRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.service.RouteOptimizationService;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 
 @Service
 public class RouteOptimizationServiceImpl implements RouteOptimizationService {
-    private final RouteOptimizationRepository routeRepo;
+    private final RouteOptimizationResultRepository routeRepo;
     private final ShipmentRepository shipmentRepo;
 
-    public RouteOptimizationServiceImpl(RouteOptimizationRepository routeRepo, ShipmentRepository shipmentRepo) {
+    public RouteOptimizationServiceImpl(RouteOptimizationResultRepository routeRepo, ShipmentRepository shipmentRepo) {
         this.routeRepo = routeRepo;
         this.shipmentRepo = shipmentRepo;
     }
