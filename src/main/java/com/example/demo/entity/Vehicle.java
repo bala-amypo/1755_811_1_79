@@ -1,18 +1,17 @@
 package com.example.demo.entity;
-
 import jakarta.persistence.*;
 
-@Entity
+@Entity @Table(name = "vehicles")
 public class Vehicle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne @JoinColumn(name = "user_id")
     private User user;
+    @Column(unique = true)
     private String vehicleNumber;
     private Double capacityKg;
     private Double fuelEfficiency;
-
+    public Vehicle() {}
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public User getUser() { return user; }
