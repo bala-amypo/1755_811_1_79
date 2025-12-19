@@ -10,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
-
     private final VehicleService vehicleService;
 
     public VehicleController(VehicleService vehicleService) {

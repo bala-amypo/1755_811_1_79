@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/optimize")
 public class RouteOptimizationController {
-
     private final RouteOptimizationService routeOptimizationService;
 
     public RouteOptimizationController(RouteOptimizationService routeOptimizationService) {
@@ -20,7 +19,7 @@ public class RouteOptimizationController {
         return ResponseEntity.ok(routeOptimizationService.optimizeRoute(shipmentId));
     }
 
-    @GetMapping("/{resultId}")
+    @GetMapping("/result/{resultId}")
     public ResponseEntity<RouteOptimizationResult> getResult(@PathVariable Long resultId) {
         return ResponseEntity.ok(routeOptimizationService.getResult(resultId));
     }
