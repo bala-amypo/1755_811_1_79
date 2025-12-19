@@ -27,10 +27,9 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
         RouteOptimizationResult result = new RouteOptimizationResult();
         result.setShipment(shipment);
         
-        // Dummy Distance Calculation (Euclidean)
         double latDiff = shipment.getDropLocation().getLatitude() - shipment.getPickupLocation().getLatitude();
         double lonDiff = shipment.getDropLocation().getLongitude() - shipment.getPickupLocation().getLongitude();
-        double distance = Math.sqrt(Math.pow(latDiff, 2) + Math.pow(lonDiff, 2)) * 111.0; // approx km
+        double distance = Math.sqrt(Math.pow(latDiff, 2) + Math.pow(lonDiff, 2)) * 111.0; 
         
         result.setOptimizedDistanceKm(distance > 0 ? distance : 10.0);
         result.setEstimatedFuelUsageL(result.getOptimizedDistanceKm() / shipment.getVehicle().getFuelEfficiency());
