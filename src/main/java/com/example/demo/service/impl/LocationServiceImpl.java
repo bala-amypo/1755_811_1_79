@@ -16,7 +16,6 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location createLocation(Location location) {
-        // Validation: Message must contain "latitude"
         if (location.getLatitude() == null || location.getLatitude() < -90 || location.getLatitude() > 90) {
             throw new IllegalArgumentException("Invalid latitude value");
         }
