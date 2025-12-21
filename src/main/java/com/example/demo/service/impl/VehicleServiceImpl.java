@@ -42,4 +42,18 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
     }
+    @Override
+public Vehicle addVehicle(Long userId, Vehicle vehicle) {
+    // 1. Check if User exists (Required for ResourceNotFoundException)
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+    // 2. Business Validation (Requirement: Message must contain "Capacity")
+    if (vehicle.getCapacityKg() == null || vehicle.getCapacityKg() <= 0) {
+        throw new IllegalArgumentException("Vehicle Capacity must be positive");
+    }
+
+    vehicle.setUser(user);
+    return vehicleRepository.save(vehicle);
+}
 }
