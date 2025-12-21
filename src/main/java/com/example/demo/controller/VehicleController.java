@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.entity.Vehicle;
 import com.example.demo.service.VehicleService;
@@ -10,6 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
+
+    @Autowired
     private final VehicleService vehicleService;
 
     public VehicleController(VehicleService vehicleService) {

@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.entity.Location;
 import com.example.demo.service.LocationService;
@@ -10,6 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
+
+    @Autowired
     private final LocationService locationService;
 
     public LocationController(LocationService locationService) {

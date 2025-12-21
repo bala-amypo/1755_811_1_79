@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.demo.entity.Shipment;
 import com.example.demo.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/shipments")
 public class ShipmentController {
+
+    @Autowired
     private final ShipmentService shipmentService;
 
     public ShipmentController(ShipmentService shipmentService) {
