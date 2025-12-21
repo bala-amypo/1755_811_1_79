@@ -5,18 +5,22 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import javax.crypto.SecretKey;
 
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private final SecretKey key;
+    private final long expirationMillis;
 
-    @Value("${jwt.expiration}")
-    private long expirationMillis;
+    public JwtUtil(@Value("${jwt.expiration}") long expirationMillis) {
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.expirationMillis = expirationMillis;
+    }
 
     public String generateToken(Long userId, String email, String role) {
 
@@ -26,18 +30,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(key)
                 .compact();
-    }
-
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
     }
 }
