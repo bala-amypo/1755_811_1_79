@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
+
     private final VehicleRepository vehicleRepository;
     private final UserRepository userRepository;
 
@@ -21,25 +22,25 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
+        // Find user or throw 404
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        
+
         if (vehicle.getCapacityKg() == null || vehicle.getCapacityKg() <= 0) {
-            throw new IllegalArgumentException("Vehicle Capacity must be positive");
+            throw new IllegalArgumentException("Capacity must be positive");
         }
-        
+
         vehicle.setUser(user);
-        return vehicleRepository.save(vehicle);
+        
+        try {
+            return vehicleRepository.save(vehicle);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Vehicle Number already exists (constraint)");
+        }
     }
 
     @Override
     public List<Vehicle> getVehiclesByUser(Long userId) {
         return vehicleRepository.findByUserId(userId);
-    }
-
-    @Override
-    public Vehicle findById(Long id) {
-        return vehicleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
     }
 }
