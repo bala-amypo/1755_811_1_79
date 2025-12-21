@@ -1,15 +1,19 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Location;
-import com.example.demo.service.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.entity.Location;
+import com.example.demo.service.LocationService;
 
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
-
+    @Autowired
     private final LocationService locationService;
 
     public LocationController(LocationService locationService) {
@@ -17,18 +21,15 @@ public class LocationController {
     }
 
     @PostMapping
-    public Location create(@RequestBody Location location) {
-        return locationService.createLocation(location);
+    public ResponseEntity<Location> createLocation(
+            @RequestBody Location location) {
+
+        Location savedLocation = locationService.createLocation(location);
+        return new ResponseEntity<>(savedLocation, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Location> getAll() {
-        return locationService.getAllLocations();
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        locationService.deleteLocation(id);
-        return "Location deleted successfully";
+    public ResponseEntity<List<Location>> getAllLocations() {
+        return ResponseEntity.ok(locationService.getAllLocations());
     }
 }
