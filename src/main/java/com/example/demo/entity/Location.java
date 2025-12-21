@@ -11,8 +11,13 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private Double latitude;
+
+    @Column(nullable = false)
     private Double longitude;
 
     @OneToMany(mappedBy = "pickupLocation")
@@ -21,7 +26,8 @@ public class Location {
     @OneToMany(mappedBy = "dropLocation")
     private List<Shipment> dropShipments;
 
-    public Location() {}
+    public Location() {
+    }
 
     public Location(String name, Double latitude, Double longitude) {
         this.name = name;
@@ -29,5 +35,32 @@ public class Location {
         this.longitude = longitude;
     }
 
-  
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }
