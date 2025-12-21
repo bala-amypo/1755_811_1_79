@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(
@@ -23,15 +26,18 @@ public class Vehicle {
     @Column(nullable = false)
     private Double fuelEfficiency;
 
+    // Hide user to avoid recursion
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
+    // Hide shipments
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Shipment> shipments;
 
-    public Vehicle() {
-    }
+    public Vehicle() {}
 
     public Vehicle(User user, String vehicleNumber, Double capacityKg, Double fuelEfficiency) {
         this.user = user;
@@ -40,7 +46,7 @@ public class Vehicle {
         this.fuelEfficiency = fuelEfficiency;
     }
 
-    // Getters and Setters
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -49,20 +55,24 @@ public class Vehicle {
         return vehicleNumber;
     }
 
-    public void setVehicleNumber(String vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
-    }
-
     public Double getCapacityKg() {
         return capacityKg;
     }
 
-    public void setCapacityKg(Double capacityKg) {
-        this.capacityKg = capacityKg;
-    }
-
     public Double getFuelEfficiency() {
         return fuelEfficiency;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public void setCapacityKg(Double capacityKg) {
+        this.capacityKg = capacityKg;
     }
 
     public void setFuelEfficiency(Double fuelEfficiency) {
@@ -71,17 +81,5 @@ public class Vehicle {
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Shipment> getShipments() {
-        return shipments;
-    }
-
-    public void setShipments(List<Shipment> shipments) {
-        this.shipments = shipments;
     }
 }

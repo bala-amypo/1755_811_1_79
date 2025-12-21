@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "shipments")
@@ -12,16 +14,18 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Hide vehicle to prevent recursion
     @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @JoinColumn(name = "vehicle_id")
+    @JsonIgnore
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "pickup_location_id", nullable = false)
+    @JoinColumn(name = "pickup_location_id")
     private Location pickupLocation;
 
     @ManyToOne
-    @JoinColumn(name = "drop_location_id", nullable = false)
+    @JoinColumn(name = "drop_location_id")
     private Location dropLocation;
 
     @Column(nullable = false)
@@ -30,11 +34,7 @@ public class Shipment {
     @Column(nullable = false)
     private LocalDate scheduledDate;
 
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    private List<RouteOptimizationResult> optimizationResults;
-
-    public Shipment() {
-    }
+    public Shipment() {}
 
     public Shipment(Vehicle vehicle, Location pickupLocation, Location dropLocation,
                     Double weightKg, LocalDate scheduledDate) {
@@ -45,13 +45,9 @@ public class Shipment {
         this.scheduledDate = scheduledDate;
     }
 
-    // Getters and Setters
+    // Getters & Setters
     public Long getId() {
         return id;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
     }
 
     public Location getPickupLocation() {
@@ -70,10 +66,6 @@ public class Shipment {
         return scheduledDate;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
     public void setPickupLocation(Location pickupLocation) {
         this.pickupLocation = pickupLocation;
     }
@@ -88,5 +80,9 @@ public class Shipment {
 
     public void setScheduledDate(LocalDate scheduledDate) {
         this.scheduledDate = scheduledDate;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

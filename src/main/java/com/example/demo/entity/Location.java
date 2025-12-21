@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "locations")
@@ -20,14 +19,7 @@ public class Location {
     @Column(nullable = false)
     private Double longitude;
 
-    @OneToMany(mappedBy = "pickupLocation")
-    private List<Shipment> pickupShipments;
-
-    @OneToMany(mappedBy = "dropLocation")
-    private List<Shipment> dropShipments;
-
-    public Location() {
-    }
+    public Location() {}
 
     public Location(String name, Double latitude, Double longitude) {
         this.name = name;
@@ -35,7 +27,7 @@ public class Location {
         this.longitude = longitude;
     }
 
-    // Getters and Setters
+    // Getters & Setters
     public Long getId() {
         return id;
     }
