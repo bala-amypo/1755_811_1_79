@@ -22,7 +22,6 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
-        // Find user or throw 404
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -31,16 +30,17 @@ public class VehicleServiceImpl implements VehicleService {
         }
 
         vehicle.setUser(user);
-        
-        try {
-            return vehicleRepository.save(vehicle);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Vehicle Number already exists (constraint)");
-        }
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
     public List<Vehicle> getVehiclesByUser(Long userId) {
         return vehicleRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Vehicle findById(Long id) {
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
     }
 }
