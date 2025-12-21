@@ -1,9 +1,7 @@
 package com.example.demo.controller;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.entity.Location;
 import com.example.demo.service.LocationService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.List;
 @RequestMapping("/locations")
 public class LocationController {
 
-    @Autowired
     private final LocationService locationService;
 
     public LocationController(LocationService locationService) {
@@ -20,12 +17,18 @@ public class LocationController {
     }
 
     @PostMapping
-    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        return ResponseEntity.ok(locationService.createLocation(location));
+    public Location create(@RequestBody Location location) {
+        return locationService.createLocation(location);
     }
 
     @GetMapping
-    public ResponseEntity<List<Location>> getAllLocations() {
-        return ResponseEntity.ok(locationService.getAllLocations());
+    public List<Location> getAll() {
+        return locationService.getAllLocations();
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        locationService.deleteLocation(id);
+        return "Location deleted successfully";
     }
 }

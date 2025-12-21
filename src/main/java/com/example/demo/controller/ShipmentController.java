@@ -1,30 +1,36 @@
 package com.example.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.demo.entity.Shipment;
 import com.example.demo.service.ShipmentService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/shipments")
 public class ShipmentController {
 
-    @Autowired
     private final ShipmentService shipmentService;
 
     public ShipmentController(ShipmentService shipmentService) {
         this.shipmentService = shipmentService;
     }
 
+    // POST
     @PostMapping("/{vehicleId}")
-    public ResponseEntity<Shipment> createShipment(@PathVariable Long vehicleId, @RequestBody Shipment shipment) {
-        return ResponseEntity.ok(shipmentService.createShipment(vehicleId, shipment));
+    public Shipment create(@PathVariable Long vehicleId,
+                           @RequestBody Shipment shipment) {
+        return shipmentService.createShipment(vehicleId, shipment);
     }
 
+    // GET
     @GetMapping("/{shipmentId}")
-    public ResponseEntity<Shipment> getShipment(@PathVariable Long shipmentId) {
-        return ResponseEntity.ok(shipmentService.getShipment(shipmentId));
+    public Shipment get(@PathVariable Long shipmentId) {
+        return shipmentService.getShipment(shipmentId);
+    }
+
+    // DELETE
+    @DeleteMapping("/{shipmentId}")
+    public String delete(@PathVariable Long shipmentId) {
+        shipmentService.deleteShipment(shipmentId);
+        return "Shipment deleted successfully";
     }
 }

@@ -24,13 +24,11 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // REGISTER
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
-    // LOGIN
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
