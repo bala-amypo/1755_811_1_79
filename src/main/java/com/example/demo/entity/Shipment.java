@@ -85,4 +85,9 @@ public class Shipment {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+    // REQUIRED FOR ROUTE OPTIMIZATION
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
 }

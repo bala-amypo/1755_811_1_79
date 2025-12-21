@@ -86,4 +86,9 @@ public class User {
     public List<Vehicle> getVehicles() {
         return vehicles;
     }
+    // REQUIRED FOR AUTH & SERVICE LOGIC
+    public String getPassword() {
+        return password;
+    }
+
 }

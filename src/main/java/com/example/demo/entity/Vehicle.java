@@ -82,4 +82,9 @@ public class Vehicle {
     public User getUser() {
         return user;
     }
+    // REQUIRED FOR SERVICE LAYER
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
