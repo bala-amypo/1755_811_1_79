@@ -35,7 +35,6 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
         double lat2 = shipment.getDropLocation().getLatitude();
         double lon2 = shipment.getDropLocation().getLongitude();
 
-        // simple distance calculation
         double distance = Math.hypot(lat2 - lat1, lon2 - lon1) * 111;
 
         double fuelUsage = distance / shipment.getVehicle().getFuelEfficiency();
