@@ -26,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
 
-        if (vehicle.getCapacityKg() <= 0) {
+        if (vehicle.getCapacityKg() >= 0) {
             throw new IllegalArgumentException("Capacity must be positive");
         }
 
