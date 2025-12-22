@@ -26,13 +26,11 @@ public class Vehicle {
     @Column(nullable = false)
     private Double fuelEfficiency;
 
-    // Hide user to avoid recursion
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    // Hide shipments
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Shipment> shipments;
@@ -46,7 +44,6 @@ public class Vehicle {
         this.fuelEfficiency = fuelEfficiency;
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -82,7 +79,6 @@ public class Vehicle {
     public User getUser() {
         return user;
     }
-    // REQUIRED FOR SERVICE LAYER
     public void setUser(User user) {
         this.user = user;
     }

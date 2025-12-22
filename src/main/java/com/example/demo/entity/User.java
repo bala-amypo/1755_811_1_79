@@ -24,7 +24,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Password can be written but never returned
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
@@ -32,7 +31,6 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    // Hide vehicles from JSON / Swagger
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Vehicle> vehicles;
@@ -46,7 +44,6 @@ public class User {
         this.role = role;
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -86,7 +83,6 @@ public class User {
     public List<Vehicle> getVehicles() {
         return vehicles;
     }
-    // REQUIRED FOR AUTH & SERVICE LOGIC
     public String getPassword() {
         return password;
     }

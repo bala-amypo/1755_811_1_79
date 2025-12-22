@@ -14,7 +14,6 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Hide vehicle to prevent recursion
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
     @JsonIgnore
@@ -45,7 +44,6 @@ public class Shipment {
         this.scheduledDate = scheduledDate;
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }

@@ -45,7 +45,6 @@ public class RouteOptimizationResult {
         this.generatedAt = LocalDateTime.now();
     }
 
-    // Getters
     public Long getId() {
         return id;
     }

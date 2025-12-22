@@ -27,7 +27,6 @@ public class Location {
         this.longitude = longitude;
     }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }
