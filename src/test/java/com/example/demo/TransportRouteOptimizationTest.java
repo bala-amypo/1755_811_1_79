@@ -762,7 +762,6 @@ public void t53_register_default_role_user() {
 
     @Test(priority = 64, groups = {"hql"})
     public void t64_hql_performance_simulation_basic() {
-        // simulate operation on 1000 fake distances to assert performance not throwing
         List<Double> distances = new ArrayList<>();
         for (int i=0;i<1000;i++) distances.add(Math.random()*100);
         double avg = distances.stream().mapToDouble(Double::doubleValue).average().orElse(0);
@@ -771,11 +770,9 @@ public void t53_register_default_role_user() {
 
     @Test(priority = 65, groups = {"hql"})
 public void t65_final_smoke_test_end_to_end_simulation() {
-    // Reset all mocks related to flow to avoid earlier interference
     Mockito.reset(userRepository, vehicleRepository, locationRepository,
                   shipmentRepository, resultRepository);
 
-    // 1️⃣ Mock user
     User u = User.builder()
             .id(333L)
             .email("smoke@test")
@@ -785,7 +782,6 @@ public void t65_final_smoke_test_end_to_end_simulation() {
             .build();
     when(userRepository.findById(333L)).thenReturn(Optional.of(u));
 
-    // 2️⃣ Mock vehicle
     when(vehicleRepository.findById(777L)).thenReturn(Optional.of(
             Vehicle.builder()
                     .id(777L)
@@ -796,7 +792,6 @@ public void t65_final_smoke_test_end_to_end_simulation() {
                     .build()
     ));
 
-    // 3️⃣ Mock pickup & drop locations
     when(locationRepository.findById(800L)).thenReturn(Optional.of(
             Location.builder().id(800L).latitude(10.0).longitude(10.0).build()
     ));
@@ -804,18 +799,15 @@ public void t65_final_smoke_test_end_to_end_simulation() {
             Location.builder().id(801L).latitude(11.0).longitude(11.0).build()
     ));
 
-    // 4️⃣ Mock shipment save
     when(shipmentRepository.save(any(Shipment.class))).thenAnswer(i -> {
         Shipment sh = i.getArgument(0);
         sh.setId(900L);
-        // attach minimal vehicle + location refs
         sh.setVehicle(Vehicle.builder().id(777L).capacityKg(1000.0).fuelEfficiency(15.0).build());
         sh.setPickupLocation(Location.builder().id(800L).latitude(10.0).longitude(10.0).build());
         sh.setDropLocation(Location.builder().id(801L).latitude(11.0).longitude(11.0).build());
         return sh;
     });
 
-    // 5️⃣ Mock findById after shipment creation
     when(shipmentRepository.findById(900L)).thenReturn(Optional.of(
             Shipment.builder()
                     .id(900L)
@@ -827,14 +819,12 @@ public void t65_final_smoke_test_end_to_end_simulation() {
                     .build()
     ));
 
-    // 6️⃣ Mock optimization save
     when(resultRepository.save(any(RouteOptimizationResult.class))).thenAnswer(i -> {
         RouteOptimizationResult r = i.getArgument(0);
         r.setId(9999L);
         return r;
     });
 
-    // 7️⃣ Create shipment via service
     Shipment s = Shipment.builder()
             .pickupLocation(Location.builder().id(800L).build())
             .dropLocation(Location.builder().id(801L).build())
