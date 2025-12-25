@@ -709,7 +709,6 @@ public void t53_register_default_role_user() {
 
     @Test(priority = 58, groups = {"hql"})
     public void t58_hcql_aggregation_simulation_total_weight_by_vehicle() {
-        // simulate sum via repository logic: not implemented but test hypothetical
         List<Shipment> shipments = List.of(
                 Shipment.builder().id(1L).weightKg(10.0).vehicle(Vehicle.builder().id(1L).build()).build(),
                 Shipment.builder().id(2L).weightKg(20.0).vehicle(Vehicle.builder().id(1L).build()).build()
@@ -737,7 +736,6 @@ public void t53_register_default_role_user() {
 
     @Test(priority = 61, groups = {"hql"})
     public void t61_hql_complex_route_query_simulation() {
-        // Simulate complex route query: nearest neighbor pseudo
         Location a = Location.builder().id(1L).latitude(10.0).longitude(10.0).build();
         Location b = Location.builder().id(2L).latitude(11.0).longitude(11.0).build();
         double dist = Math.hypot(a.getLatitude() - b.getLatitude(), a.getLongitude() - b.getLongitude());
@@ -753,7 +751,6 @@ public void t53_register_default_role_user() {
 
     @Test(priority = 63, groups = {"hql"})
     public void t63_hql_result_persistence_after_optimization() {
-        // When optimizeRoute saves result, repository should have saved id set
         RouteOptimizationResult r = RouteOptimizationResult.builder().id(1200L).build();
         when(resultRepository.save(any())).thenReturn(r);
         RouteOptimizationResult saved = resultRepository.save(RouteOptimizationResult.builder().build());
