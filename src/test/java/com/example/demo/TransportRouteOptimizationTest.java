@@ -844,7 +844,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
 
     Shipment created = shipmentService.createShipment(777L, s);
 
-    // 8️⃣ Optimize
+    
     when(shipmentRepository.findById(created.getId())).thenReturn(Optional.of(created));
 
     RouteOptimizationResult result = routeService.optimizeRoute(created.getId());
