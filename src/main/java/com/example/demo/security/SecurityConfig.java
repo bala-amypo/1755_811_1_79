@@ -13,10 +13,21 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
+
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/status").permitAll()
-                .anyRequest().permitAll()
-            );
+                // Public endpoints
+                .requestMatchers(
+                        "/",
+                        "/status",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**"
+                ).permitAll()
+
+                .anyRequest().authenticated()
+            )
+
+            .httpBasic();
 
         return http.build();
     }
