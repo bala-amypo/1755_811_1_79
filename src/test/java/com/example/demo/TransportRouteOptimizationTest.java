@@ -775,6 +775,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
     Mockito.reset(userRepository, vehicleRepository, locationRepository,
                   shipmentRepository, resultRepository);
 
+    // 1️⃣ Mock user
     User u = User.builder()
             .id(333L)
             .email("smoke@test")
@@ -784,6 +785,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
             .build();
     when(userRepository.findById(333L)).thenReturn(Optional.of(u));
 
+    // 2️⃣ Mock vehicle
     when(vehicleRepository.findById(777L)).thenReturn(Optional.of(
             Vehicle.builder()
                     .id(777L)
@@ -794,6 +796,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
                     .build()
     ));
 
+    // 3️⃣ Mock pickup & drop locations
     when(locationRepository.findById(800L)).thenReturn(Optional.of(
             Location.builder().id(800L).latitude(10.0).longitude(10.0).build()
     ));
@@ -801,6 +804,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
             Location.builder().id(801L).latitude(11.0).longitude(11.0).build()
     ));
 
+    // 4️⃣ Mock shipment save
     when(shipmentRepository.save(any(Shipment.class))).thenAnswer(i -> {
         Shipment sh = i.getArgument(0);
         sh.setId(900L);
@@ -811,6 +815,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
         return sh;
     });
 
+    // 5️⃣ Mock findById after shipment creation
     when(shipmentRepository.findById(900L)).thenReturn(Optional.of(
             Shipment.builder()
                     .id(900L)
@@ -822,12 +827,14 @@ public void t65_final_smoke_test_end_to_end_simulation() {
                     .build()
     ));
 
+    // 6️⃣ Mock optimization save
     when(resultRepository.save(any(RouteOptimizationResult.class))).thenAnswer(i -> {
         RouteOptimizationResult r = i.getArgument(0);
         r.setId(9999L);
         return r;
     });
 
+    // 7️⃣ Create shipment via service
     Shipment s = Shipment.builder()
             .pickupLocation(Location.builder().id(800L).build())
             .dropLocation(Location.builder().id(801L).build())
@@ -837,6 +844,7 @@ public void t65_final_smoke_test_end_to_end_simulation() {
 
     Shipment created = shipmentService.createShipment(777L, s);
 
+    // 8️⃣ Optimize
     when(shipmentRepository.findById(created.getId())).thenReturn(Optional.of(created));
 
     RouteOptimizationResult result = routeService.optimizeRoute(created.getId());
