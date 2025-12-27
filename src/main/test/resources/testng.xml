@@ -1,15 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Demo Test Suite" verbose="1">
 
-<suite name="Transport Route Optimization Test Suite" verbose="1">
-
-    <listeners>
-        <listener class-name="com.example.demo.TestResultListener"/>
-    </listeners>
-
-    <test name="TransportRouteOptimizationTests">
-        <classes>
-            <class name="com.example.demo.TransportRouteOptimizationTest"/>
-        </classes>
+    <test name="Demo Tests">
+        <packages>
+            <package name="com.example.demo"/>
+        </packages>
     </test>
 
 </suite>
