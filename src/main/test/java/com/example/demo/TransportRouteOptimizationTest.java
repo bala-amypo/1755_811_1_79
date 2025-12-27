@@ -775,7 +775,6 @@ public void t65_final_smoke_test_end_to_end_simulation() {
     Mockito.reset(userRepository, vehicleRepository, locationRepository,
                   shipmentRepository, resultRepository);
 
-    // 1️⃣ Mock user
     User u = User.builder()
             .id(333L)
             .email("smoke@test")
@@ -785,7 +784,6 @@ public void t65_final_smoke_test_end_to_end_simulation() {
             .build();
     when(userRepository.findById(333L)).thenReturn(Optional.of(u));
 
-    // 2️⃣ Mock vehicle
     when(vehicleRepository.findById(777L)).thenReturn(Optional.of(
             Vehicle.builder()
                     .id(777L)
